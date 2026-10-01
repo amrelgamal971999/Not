@@ -22,7 +22,7 @@ body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
 .lang-btns { display: flex; gap: 4px; }
 .lang-btn { background: #222; border: 1px solid #444; color: #ddd; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
 .lang-btn.active { background: var(--red); border-color: var(--red); color: #fff; font-weight: bold; }
-/* Header & Brand (Strictly LTR for official store branding) */
+/* Header */
 header { background: #111; color: #fff; padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 .nav-wrap { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
 .brand-box { cursor: pointer; text-decoration: none; display: flex; flex-direction: column; align-items: flex-start; direction: ltr !important; text-align: left; user-select: none; }
@@ -45,11 +45,15 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 .scroll-row::-webkit-scrollbar { display: none; }
 .chip-btn { background: #fff; border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; cursor: pointer; color: #222; }
 .chip-btn.active { background: #111; color: var(--cyan); border-color: #111; font-weight: bold; }
-/* Cloud Sync Status Indicator */
+/* Sync Indicator */
 .sync-status { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: #666; margin-bottom: 10px; }
 .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; display: inline-block; }
 .sync-dot.syncing { background: #ff9800; animation: pulse 1s infinite; }
 @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+/* Alert Banner */
+.alert-banner { display: none; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; margin-bottom: 12px; text-align: center; }
+.alert-banner.success { display: block; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.alert-banner.error { display: block; background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
 /* Products Grid */
 .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media(min-width: 768px) { .products-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
@@ -92,9 +96,7 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .btn-primary { width: 100%; background: #111; color: #fff; padding: 11px; border: none; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 6px; }
 .quick-sz-btn { background: #f0ede8; border: 1px solid #dcd7ce; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-family: monospace; cursor: pointer; margin: 2px; }
-/* Cloud Sync Box */
-.cloud-box { background: #e3f2fd; border: 1.5px solid #2196f3; border-radius: 10px; padding: 12px; margin-bottom: 15px; }
-/* Floating */
+/* Float Links */
 .float-wrap { position: fixed; bottom: 15px; left: 15px; z-index: 99; display: flex; flex-direction: column; gap: 8px; }
 [dir="ltr"] .float-wrap { left: auto; right: 15px; }
 .float-circle { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
@@ -113,7 +115,7 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <!-- Header -->
 <header>
 <div class="nav-wrap">
-<!-- اضغط 3 مرات متتالية سريعة على اللوجو لفتح بوابة الإدارة برمز 971999 -->
+<!-- اضغط 3 مرات متتالية سريعة على اللوجو لفتح الإدارة بالرمز 971999 -->
 <div class="brand-box" onclick="handleLogoClicks()">
 <div class="brand-title">
 <span class="logo-ali">ALI</span>
@@ -134,7 +136,7 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <span style="color:var(--red); margin-left:4px;">MODA</span>
 </div>
 <div style="font-size:10px; letter-spacing:3px; color:#fff; text-transform:lowercase; margin-bottom:8px; font-weight:bold;">general trading</div>
-<p class="hero-sub" id="heroDesc">كتالوج الأحذية والحقائب والإكسسوارات الفاخرة مع إمكانية استعراض الألوان والطلب المباشر</p>
+<p class="hero-sub" id="heroDesc">كتالوج الأحذية والحقائب والإكسسوارات الفاخرة</p>
 <div class="branch-pills">
 <span class="branch-pill">📍 فرع جد علي: 36334410</span>
 <span class="branch-pill">📍 فرع المالكية: 35453057</span>
@@ -143,53 +145,49 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <div class="main-container">
 <div class="sync-status">
 <span class="sync-dot" id="syncDot"></span>
-<span id="syncText">الكتالوج محدث ومتزامن سحابياً</span>
+<span id="syncText">جاري مزامنة الكتالوج مع السحابة...</span>
 </div>
-<input type="text" id="searchInput" class="search-input" placeholder="ابحث عن حذاء، حقيبة، كعب، مقاس..." oninput="handleSearch(this.value)">
-<!-- Main Department Tabs -->
+<input type="text" id="searchInput" class="search-input" placeholder="ابحث عن موديل، مقاس، حذاء..." oninput="handleSearch(this.value)">
 <div class="scroll-row" id="deptTabs"></div>
-<!-- Quick Offers -->
 <div style="display:flex; gap:8px; margin-bottom:12px;">
 <button class="chip-btn active" id="filter-all" type="button" onclick="setQuickFilter('all')">الكل</button>
 <button class="chip-btn" id="filter-offers" type="button" onclick="setQuickFilter('offers')">🏷️ عروض وديسكاونت</button>
 </div>
-<!-- Products Grid -->
 <div class="products-grid" id="grid"></div>
-<div id="noProducts" style="text-align:center; padding:40px; color:#888; font-size:13px; display:none;">لا توجد معروضات مطابقة حالياً.</div>
+<div id="noProducts" style="text-align:center; padding:50px 20px; color:#777; font-size:14px; display:none;">
+لا توجد معروضات حالياً.
+
+<span style="font-size:12px; color:#999;">(قم بالدخول كأدمن من اللوجو برمز 971999 لإضافة المعروضات)</span>
 </div>
 </div>
-<!-- Admin View (Protected by 971999) -->
+</div>
+<!-- Admin Area -->
 <div id="adminArea" class="main-container" style="display:none;">
 <div class="admin-panel">
 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:12px;">
-<h2 style="font-size:14px; font-weight:bold;">لوحة تحكم صاحب المحل (رمز الدخول: 971999)</h2>
+<h2 style="font-size:14px; font-weight:bold;">لوحة إدارة المتجر (ALI MODA)</h2>
 <div>
-<button class="chip-btn" type="button" onclick="showCatalog()" style="background:#eee;">معاينة الكتالوج</button>
-<button class="chip-btn" type="button" onclick="adminLogout()" style="background:#ffebee; color:#c62828;">خروج وقفل</button>
+<button class="chip-btn" type="button" onclick="showCatalog()" style="background:#eee;">معاينة المتجر</button>
+<button class="chip-btn" type="button" onclick="adminLogout()" style="background:#ffebee; color:#c62828;">خروج</button>
 </div>
 </div>
-<div class="cloud-box">
-<div style="font-size:12px; font-weight:bold; color:#0d47a1; margin-bottom:4px;">☁️ المزامنة السحابية الفورية (بدون إعادة رفع ملفات)</div>
-<p style="font-size:11px; color:#1565c0; line-height:1.5;">
-أي تعديل أو إضافة منتج من هذا النموذج يُحفظ في السحابة فوراً ويظهر لجميع الزوار بدون أي تدخل إضافي في الاستضافة.
-</p>
-</div>
-<!-- Product Form -->
+<div id="adminStatusMsg" class="alert-banner"></div>
+<!-- Add/Edit Form -->
 <form onsubmit="handleSaveProduct(event)" style="background:#faf8f5; border:1px solid #ebd8c0; border-radius:10px; padding:12px; margin-bottom:15px;">
-<h3 id="formTitle" style="font-size:13px; font-weight:bold; margin-bottom:8px;">إضافة قطعة جديدة للكتالوج</h3>
+<h3 id="formTitle" style="font-size:13px; font-weight:bold; margin-bottom:8px;">إضافة قطعة جديدة</h3>
 <input type="hidden" id="editId">
 <div class="form-group">
-<label>صور المنتج وألوانه (التقاط بالكاميرا أو اختيار عدة صور معاً) *</label>
+<label>صورة المنتج (يتم ضغطها وتجهيزها للسحابة فوراً) *</label>
 <input type="file" id="imgUpload" accept="image/*" multiple onchange="handleImgFiles(event)" style="font-size:11px;">
 <div id="imgPreviewList" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;"></div>
 </div>
 <div class="form-group">
-<label>اسم المنتج (اكتب بالعربي - الترجمة للإنجليزي والهندي تتم تلقائياً) *</label>
+<label>اسم المنتج *</label>
 <input type="text" id="pName" class="form-ctrl" required placeholder="مثال: حذاء كلاسيك جلد طبيعي">
 </div>
 <div class="form-row">
 <div class="form-group">
-<label>القسم الرئيسي *</label>
+<label>القسم *</label>
 <select id="pGender" class="form-ctrl" required>
 <option value="رجال">رجال</option>
 <option value="نساء">نساء</option>
@@ -200,27 +198,25 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </select>
 </div>
 <div class="form-group">
-<label>حالة التوفر</label>
+<label>الحالة</label>
 <select id="pStatus" class="form-ctrl">
-<option value="متوفر">متوفر في المحل</option>
+<option value="متوفر">متوفر</option>
 <option value="كمية محدودة">كمية محدودة</option>
-<option value="طلب مسبق">طلب مسبق</option>
 </select>
 </div>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label>السعر الأصلي (د.ب) *</label>
-<input type="number" step="0.050" id="pPrice" class="form-ctrl" required placeholder="14.000">
+<label>السعر (د.ب) *</label>
+<input type="number" step="0.050" id="pPrice" class="form-ctrl" required placeholder="15.000">
 </div>
 <div class="form-group">
 <label>سعر الديسكاونت (د.ب) - اختياري</label>
-<input type="number" step="0.050" id="pOffer" class="form-ctrl" placeholder="10.500">
+<input type="number" step="0.050" id="pOffer" class="form-ctrl" placeholder="11.500">
 </div>
 </div>
-<!-- Quick Sizes -->
 <div class="form-group" style="background:#fff; padding:8px; border-radius:6px; border:1px solid #ddd;">
-<label>أداة المقاسات السريعة (اضغط للإضافة):</label>
+<label>المقاسات (اضغط للإضافة السريعة):</label>
 <div style="margin:4px 0;">
 <button type="button" class="quick-sz-btn" onclick="addSz('36')">36</button>
 <button type="button" class="quick-sz-btn" onclick="addSz('37')">37</button>
@@ -232,22 +228,19 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <button type="button" class="quick-sz-btn" onclick="addSz('43')">43</button>
 <button type="button" class="quick-sz-btn" onclick="addSz('44')">44</button>
 <button type="button" class="quick-sz-btn" onclick="addSz('45')">45</button>
-<button type="button" class="quick-sz-btn" onclick="addSz('S')">S</button>
-<button type="button" class="quick-sz-btn" onclick="addSz('M')">M</button>
-<button type="button" class="quick-sz-btn" onclick="addSz('L')">L</button>
 <button type="button" class="quick-sz-btn" onclick="addSz('One Size')">One Size</button>
 <button type="button" class="quick-sz-btn" onclick="document.getElementById('pSizes').value=''" style="background:#e0e0e0;">مسح</button>
 </div>
 <input type="text" id="pSizes" class="form-ctrl" placeholder="40, 41, 42...">
 </div>
 <div class="form-group">
-<label>الألوان المتوفرة (بالعربي)</label>
+<label>الألوان</label>
 <input type="text" id="pColors" class="form-ctrl" placeholder="أسود، بني، كحلي...">
 </div>
-<button type="submit" id="btnSubmitProduct" class="btn-primary">حفظ ونشر التعديل لجميع الزبائن فوراً ☁️</button>
+<button type="submit" id="btnSubmitProduct" class="btn-primary">حفظ ونشر التحديث للجميع فوراً ☁️</button>
 </form>
-<!-- Products Table -->
-<h3 style="font-size:13px; font-weight:bold; margin-bottom:6px;">المعروضات الحالية (<span id="prodsCount">0</span>)</h3>
+<!-- Products Management Table -->
+<h3 style="font-size:13px; font-weight:bold; margin-bottom:6px;">المعروضات النشطة بالسحابة (<span id="prodsCount">0</span>)</h3>
 <div style="overflow-x:auto;">
 <table style="width:100%; border-collapse:collapse; font-size:11px;">
 <thead>
@@ -265,21 +258,21 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </div>
 </div>
 </div>
-<!-- Hidden Login Modal -->
+<!-- Login Modal -->
 <div class="modal-backdrop" id="loginModal">
 <div class="modal-box" style="max-width:320px; text-align:center;">
 <button class="modal-close" type="button" onclick="closeLoginModal()">✕</button>
 <div style="font-size:24px; margin-bottom:4px;">🔐</div>
-<h3 style="font-size:14px; font-weight:bold; margin-bottom:4px;">دخول صاحب المحل فقط</h3>
-<p style="font-size:11px; color:#666; margin-bottom:12px;">أدخل كود الإدارة السري</p>
+<h3 style="font-size:14px; font-weight:bold; margin-bottom:4px;">بوابة الإدارة</h3>
+<p style="font-size:11px; color:#666; margin-bottom:12px;">أدخل كود الإدارة (971999)</p>
 <form onsubmit="handleLoginSubmit(event)">
 <input type="password" id="passInput" class="form-ctrl" required placeholder="••••••" style="text-align:center; font-size:18px; letter-spacing:4px; margin-bottom:8px;">
-<div id="loginErr" style="color:#d32f2f; font-size:11px; font-weight:bold; display:none; margin-bottom:8px;">الكود السري غير صحيح!</div>
-<button type="submit" class="btn-primary" style="margin:0;">دخول وتأكيد</button>
+<div id="loginErr" style="color:#d32f2f; font-size:11px; font-weight:bold; display:none; margin-bottom:8px;">الكود غير صحيح!</div>
+<button type="submit" class="btn-primary" style="margin:0;">دخول</button>
 </form>
 </div>
 </div>
-<!-- Product Modal for Ordering -->
+<!-- WhatsApp Order Modal -->
 <div class="modal-backdrop" id="productModal">
 <div class="modal-box">
 <button class="modal-close" type="button" onclick="closeProductModal()">✕</button>
@@ -292,12 +285,12 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <span id="mOldPrice" style="font-size:11px; text-decoration:line-through; color:#999;"></span>
 </div>
 <div style="margin-bottom:10px;">
-<div style="font-size:11px; font-weight:bold; margin-bottom:4px;" id="lblSize">اختر مقاسك المطلوب (Size):</div>
+<div style="font-size:11px; font-weight:bold; margin-bottom:4px;" id="lblSize">اختر المقاس:</div>
 <div id="mSizes" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
 </div>
 <div style="font-size:11px; color:#666; margin-bottom:8px;" id="mColors"></div>
 <div style="background:#faf8f5; border:1px solid var(--border); border-radius:8px; padding:8px; margin-bottom:10px;">
-<div style="font-size:11px; font-weight:bold; margin-bottom:4px;" id="lblBranch">اختر الفرع للتواصل أو الاستلام:</div>
+<div style="font-size:11px; font-weight:bold; margin-bottom:4px;" id="lblBranch">اختر الفرع للتواصل:</div>
 <div class="branch-grid">
 <div class="branch-card active" id="bCard-jidali" onclick="setBranch('jidali')">
 <div>📍 فرع جد علي</div>
@@ -309,11 +302,11 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </div>
 </div>
 </div>
-<button type="button" class="btn-wa-action" onclick="submitWaOrder()" id="btnSendWa">إرسال الطلب عبر واتساب للفرع المختار</button>
-<button type="button" class="btn-return" onclick="closeProductModal()" id="btnBack">↩️ الرجوع للمنتجات ومتابعة التصفح</button>
+<button type="button" class="btn-wa-action" onclick="submitWaOrder()" id="btnSendWa">إرسال الطلب عبر واتساب</button>
+<button type="button" class="btn-return" onclick="closeProductModal()" id="btnBack">↩️ متابعة التصفح</button>
 </div>
 </div>
-<!-- Floating Buttons -->
+<!-- Social Float Links -->
 <div class="float-wrap">
 <a href="https://instagram.com/ali_moda20" target="_blank" rel="noopener noreferrer" class="float-circle" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);">
 <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -323,70 +316,13 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </a>
 </div>
 <script>
-/* ================= LIVE CLOUD REST CONFIGURATION ================= */
-var CLOUD_BIN_ID = '671fc61bad19ca34f8bfb29c';
-var CLOUD_MASTER_KEY = '2a10$o.jW4uB0u8nI2d1Yy.x0hOT7Wb32h6yI0hK7l20t9o8n123456789';
-var CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b/' + CLOUD_BIN_ID;
-/* Base Initial Catalog if offline or newly launched */
-var BASE_PRODUCTS = [
-{
-id: 'p1',
-nameAr: 'حذاء كلاسيك أكسفورد إيطالي نخب أول',
-gender: 'رجال',
-price: 18.500,
-offerPrice: 14.000,
-sizes: ['40', '41', '42', '43', '44', '45'],
-colors: 'أسود، بني، هافان',
-images: [
-'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=700&q=80',
-'https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=700&q=80'
-]
-},
-{
-id: 'p2',
-nameAr: 'نعال شرقي خليجي مطرز فاخر',
-gender: 'رجال',
-price: 14.500,
-offerPrice: 10.900,
-sizes: ['41', '42', '43', '44', '45'],
-colors: 'بيج، كحلي، بني',
-images: [
-'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=700&q=80'
-]
-},
-{
-id: 'p3',
-nameAr: 'كعب سهرة كريستال فخم 8 سم',
-gender: 'أكعب',
-price: 16.000,
-offerPrice: 12.500,
-sizes: ['36', '37', '38', '39', '40'],
-colors: 'ذهبي، فضي، أسود',
-images: [
-'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=700&q=80'
-]
-},
-{
-id: 'p4',
-nameAr: 'حقيبة يد وكتف راقية بإبزيم ذهبي',
-gender: 'حقائب',
-price: 15.000,
-offerPrice: 11.500,
-sizes: ['Medium', 'Large', 'One Size'],
-colors: 'أسود، كراميل',
-images: [
-'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80'
-]
-}
-];
-/* Storage & State */
+/* ================= CLOUD SYNC ENGINE WITH PROXY FALLBACK ================= */
+var CLOUD_BIN_ID = '6abe9839ac6210605a09ce36';
+var CLOUD_MASTER_KEY = '2a10$2Gj3nH61Acbw4KnT1n.qH.rH36thD0crPFNkgXVYvA8j5zQuMiLdO';
+var DIRECT_ENDPOINT = 'https://api.jsonbin.io/v3/b/' + CLOUD_BIN_ID;
+// CORS proxy ensures mobile browsers don't block PUT/POST requests
+var PROXY_ENDPOINT = 'https://corsproxy.io/?' + encodeURIComponent(DIRECT_ENDPOINT);
 var products = [];
-try {
-var cached = localStorage.getItem('am_cloud_cache');
-products = cached ? JSON.parse(cached) : BASE_PRODUCTS;
-} catch(e) {
-products = BASE_PRODUCTS;
-}
 var currentLang = 'ar';
 var isOwner = false;
 var activeDept = 'all';
@@ -396,62 +332,101 @@ var newUploadedImgs = [];
 var currentModalItem = null;
 var selectedModalSize = '';
 var selectedBranch = 'jidali';
-/* Cloud Synchronization Functions */
 function setSyncState(isSyncing, msg) {
 var dot = document.getElementById('syncDot');
 var txt = document.getElementById('syncText');
 if (dot) dot.className = isSyncing ? 'sync-dot syncing' : 'sync-dot';
 if (txt && msg) txt.innerText = msg;
 }
+function showAdminStatus(msg, isSuccess) {
+var el = document.getElementById('adminStatusMsg');
+if (!el) return;
+el.className = 'alert-banner ' + (isSuccess ? 'success' : 'error');
+el.innerText = msg;
+setTimeout(function() { el.className = 'alert-banner'; }, 8000);
+}
+/* PULL CLOUD DATA */
 function pullFromCloud() {
-setSyncState(true, 'جاري تحديث الكتالوج من السحابة...');
-fetch(CLOUD_ENDPOINT + '/latest', {
+setSyncState(true, 'جاري مزامنة المنتجات من السحابة...');
+var fetchUrl = DIRECT_ENDPOINT + '/latest?nocache=' + Date.now();
+fetch(fetchUrl, {
 headers: { 'X-Master-Key': CLOUD_MASTER_KEY }
 })
+.catch(function() {
+return fetch('https://corsproxy.io/?' + encodeURIComponent(fetchUrl), {
+headers: { 'X-Master-Key': CLOUD_MASTER_KEY }
+});
+})
 .then(function(res) {
-if (!res.ok) throw new Error('Network error');
+if (!res.ok) throw new Error('Status: ' + res.status);
 return res.json();
 })
 .then(function(data) {
-if (data && data.record && Array.isArray(data.record) && data.record.length > 0) {
-products = data.record;
-try { localStorage.setItem('am_cloud_cache', JSON.stringify(products)); } catch(e){}
+var cloudList = [];
+if (data && data.record) {
+if (Array.isArray(data.record.products)) cloudList = data.record.products;
+else if (Array.isArray(data.record)) cloudList = data.record;
+}
+products = cloudList;
 renderCatalog();
 if (isOwner) renderAdmin();
-}
-setSyncState(false, 'الكتالوج محدث ومتزامن سحابياً ✓');
+setSyncState(false, 'الكتالوج متزامن ومحدث سحابياً ✓');
 })
 .catch(function(err) {
-setSyncState(false, 'تم تحميل النسخة المحفوظة محلياً');
+setSyncState(false, 'الكتالوج جاهز');
+renderCatalog();
 });
 }
-function pushToCloud(callback) {
-setSyncState(true, 'جاري النشر في السحابة...');
-fetch(CLOUD_ENDPOINT, {
-method: 'PUT',
-headers: {
+/* PUSH CLOUD DATA WITH FAILOVER */
+function pushToCloud(payload, callback) {
+setSyncState(true, 'جاري الرفع للسحابة لجميع الزوار...');
+var bodyData = JSON.stringify({ products: payload });
+var headers = {
 'Content-Type': 'application/json',
-'X-Master-Key': CLOUD_MASTER_KEY
-},
-body: JSON.stringify(products)
+'X-Master-Key': CLOUD_MASTER_KEY,
+'X-Bin-Versioning': 'false'
+};
+// Try Direct first
+fetch(DIRECT_ENDPOINT, {
+method: 'PUT',
+headers: headers,
+body: bodyData
 })
-.then(function(res) { return res.json(); })
-.then(function(data) {
-setSyncState(false, 'تم النشر في السحابة لجميع الزوار بنجاح ✓');
-if (callback) callback(true);
+.then(function(res) {
+if (!res.ok) throw new Error('Direct push rejected: ' + res.status);
+return res.json();
+})
+.then(function() {
+setSyncState(false, 'تم التحديث بنجاح في السحابة ✓');
+callback(true, null);
 })
 .catch(function(err) {
-setSyncState(false, 'تم الحفظ في المتصفح (تعذر التحديث السحابي المؤقت)');
-if (callback) callback(false);
+// Fallback to CORS-Proxy
+fetch(PROXY_ENDPOINT, {
+method: 'PUT',
+headers: headers,
+body: bodyData
+})
+.then(function(res2) {
+if (!res2.ok) throw new Error('Proxy push rejected: ' + res2.status);
+return res2.json();
+})
+.then(function() {
+setSyncState(false, 'تم التحديث بنجاح في السحابة ✓');
+callback(true, null);
+})
+.catch(function(finalErr) {
+setSyncState(false, 'فشل الحفظ في السحابة');
+callback(false, finalErr.message);
+});
 });
 }
-/* Translation Dictionary */
+/* Dictionary */
 var DICT_EN = {
 'حذاء': 'Shoes', 'أحذية': 'Shoes', 'كلاسيك': 'Classic', 'جلد': 'Leather', 'طبيعي': 'Genuine',
 'رجال': 'Men', 'نساء': 'Women', 'أطفال': 'Kids', 'أكعب': 'Heels', 'حقائب': 'Bags', 'إكسسوارات': 'Accessories',
 'نعال': 'Slippers', 'شرقي': 'Traditional', 'خليجي': 'Khaleeji', 'مطرز': 'Embroidered', 'فاخر': 'Luxury',
-'كعب': 'Heels', 'سهرة': 'Evening', 'حقيبة': 'Handbag', 'أسود': 'Black', 'بني': 'Brown', 'هافان': 'Havana',
-'بيج': 'Beige', 'كحلي': 'Navy', 'ذهبي': 'Gold', 'فضي': 'Silver', 'كراميل': 'Caramel'
+'كعب': 'Heels', 'سهرة': 'Evening', 'حقيبة': 'Handbag', 'أسود': 'Black', 'بني': 'Brown', 'هافان': 'Havana'
 };
 var DICT_HI = {
 'حذاء': 'जूते', 'أحذية': 'जूते', 'كلاسيك': 'क्लासिक', 'جلد': 'लेदर', 'رجال': 'पुरुष', 'نساء': 'महिलाएं',
@@ -477,11 +452,11 @@ all: 'الكل',
 offers: '🏷️ عروض وديسكاونت',
 bhd: 'د.ب',
 orderBtn: 'مشاهدة الألوان والطلب',
-searchPh: 'ابحث عن حذاء، حقيبة، كعب، مقاس...',
-lblSize: 'اختر مقاسك المطلوب (Size):',
-lblBranch: 'اختر الفرع للتواصل أو الاستلام:',
-btnSendWa: 'إرسال الطلب عبر واتساب للفرع المختار',
-btnBack: '↩️ الرجوع للمنتجات ومتابعة التصفح',
+searchPh: 'ابحث عن موديل، مقاس، حذاء...',
+lblSize: 'اختر المقاس:',
+lblBranch: 'اختر الفرع للتواصل:',
+btnSendWa: 'إرسال الطلب عبر واتساب',
+btnBack: '↩️ متابعة التصفح',
 depts: { 'all': 'الكل', 'رجال': 'رجال', 'نساء': 'نساء', 'أكعب': 'أكعب', 'أطفال': 'أطفال', 'حقائب': 'حقائب', 'إكسسوارات': 'إكسسوارات' }
 },
 en: {
@@ -490,11 +465,11 @@ all: 'All',
 offers: '🏷️ Offers & Discounts',
 bhd: 'BHD',
 orderBtn: 'View Colors & Order',
-searchPh: 'Search shoes, bags, heels, size...',
-lblSize: 'Select your size (Size):',
-lblBranch: 'Select branch for WhatsApp / Pickup:',
-btnSendWa: 'Send Order on WhatsApp to Branch',
-btnBack: '↩️ Back to Products & Continue Browsing',
+searchPh: 'Search models, sizes...',
+lblSize: 'Select Size:',
+lblBranch: 'Select Branch:',
+btnSendWa: 'Send WhatsApp Order',
+btnBack: '↩️ Continue Browsing',
 depts: { 'all': 'All', 'رجال': 'Men', 'نساء': 'Women', 'أكعب': 'Heels', 'أطفال': 'Kids', 'حقائب': 'Bags', 'إكسسوارات': 'Accessories' }
 },
 hi: {
@@ -504,34 +479,25 @@ offers: '🏷 छूट और ऑफर्स',
 bhd: 'BHD',
 orderBtn: 'रंग देखें और ऑर्डर करें',
 searchPh: 'जूते, बैग, साइज खोजें...',
-lblSize: 'अपना साइज चुनें:',
-lblBranch: 'शाखा (Branch) चुनें:',
+lblSize: 'साइज चुनें:',
+lblBranch: 'शाखा चुनें:',
 btnSendWa: 'व्हाट्सएप पर ऑर्डर भेजें',
-btnBack: '↩️ उत्पादों पर वापस जाएं',
+btnBack: '↩ जारी रखें',
 depts: { 'all': 'सभी', 'رجال': 'पुरुष (Men)', 'نساء': 'महिलाएं (Women)', 'أكعب': 'हील्स (Heels)', 'أطفال': 'बच्चे (Kids)', 'حقائب': 'बैग्स (Bags)', 'إكسسوارات': 'एक्सेसरीज' }
 }
 };
-/* Secret Portal Activation */
+/* Secret Portal by 3 clicks */
 var logoClickCount = 0;
 var logoClickTimer = null;
 function handleLogoClicks() {
 logoClickCount++;
 if (logoClickCount === 1) {
-logoClickTimer = setTimeout(function() { logoClickCount = 0; }, 1500);
+logoClickTimer = setTimeout(function() { logoClickCount = 0; }, 1200);
 } else if (logoClickCount >= 3) {
 clearTimeout(logoClickTimer);
 logoClickCount = 0;
 openSecretPortal();
 }
-}
-window.addEventListener('keydown', function(e) {
-if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-e.preventDefault();
-openSecretPortal();
-}
-});
-function checkHashPortal() {
-if (window.location.hash === '#admin') openSecretPortal();
 }
 function openSecretPortal() {
 if (isOwner) {
@@ -544,9 +510,7 @@ document.getElementById('loginModal').style.display = 'flex';
 }
 function closeLoginModal() {
 document.getElementById('loginModal').style.display = 'none';
-if (window.location.hash === '#admin') history.replaceState(null, null, ' ');
 }
-/* Language Switcher */
 function changeLang(l) {
 currentLang = l;
 var dict = I18N[l];
@@ -593,7 +557,7 @@ function handleSearch(txt) {
 searchKeyword = (txt || '').toLowerCase().trim();
 renderCatalog();
 }
-/* Catalog Rendering */
+/* Render Catalog */
 function renderCatalog() {
 var grid = document.getElementById('grid');
 var noMsg = document.getElementById('noProducts');
@@ -653,7 +617,7 @@ html += '<div class="card">' +
 }
 grid.innerHTML = html;
 }
-/* Modal & Ordering */
+/* Modal */
 function openProductModal(id) {
 var item = null;
 for (var i = 0; i < products.length; i++) {
@@ -749,11 +713,10 @@ var curPrice = (currentModalItem.offerPrice && currentModalItem.offerPrice < cur
 var text = 'مرحباً ALI MODA (' + branchName + ')، أود طلب المنتج:\n' +
 '• الموديل: ' + currentModalItem.nameAr + '\n' +
 '• المقاس: ' + selectedModalSize + '\n' +
-'• السعر: ' + Number(curPrice).toFixed(3) + ' ' + dict.bhd + '\n' +
-'يرجى تأكيد التوفر لديكم.';
+'• السعر: ' + Number(curPrice).toFixed(3) + ' ' + dict.bhd;
 window.location.href = 'https://api.whatsapp.com/send?phone=' + phone + '&text=' + encodeURIComponent(text);
 }
-/* Admin System */
+/* Admin Operations */
 function handleLoginSubmit(e) {
 if (e && e.preventDefault) e.preventDefault();
 var pass = document.getElementById('passInput').value.trim();
@@ -770,7 +733,6 @@ return false;
 function adminLogout() {
 isOwner = false;
 document.getElementById('adminActiveBtn').style.display = 'none';
-if (window.location.hash === '#admin') history.replaceState(null, null, ' ');
 showCatalog();
 }
 function showCatalog() {
@@ -815,14 +777,15 @@ renderImgPreview();
 });
 }
 }
+/* Compresses each image to under ~25KB to stay far beneath JSONBin quotas */
 function compressImage(file, callback) {
 var reader = new FileReader();
 reader.onload = function(evt) {
 var img = new Image();
 img.onload = function() {
 var canvas = document.createElement('canvas');
-var maxW = 800;
-var maxH = 1000;
+var maxW = 360;
+var maxH = 460;
 var w = img.width;
 var h = img.height;
 if (w > maxW || h > maxH) {
@@ -838,7 +801,7 @@ canvas.width = w;
 canvas.height = h;
 var ctx = canvas.getContext('2d');
 ctx.drawImage(img, 0, 0, w, h);
-callback(canvas.toDataURL('image/jpeg', 0.75));
+callback(canvas.toDataURL('image/jpeg', 0.40));
 };
 img.src = evt.target.result;
 };
@@ -879,28 +842,29 @@ var sizes = document.getElementById('pSizes').value.split(',').map(function(s){ 
 var colors = document.getElementById('pColors').value.trim();
 var status = document.getElementById('pStatus').value;
 if (!editId && newUploadedImgs.length === 0) {
-alert('يرجى اختيار صورة واحدة على الأقل');
+alert('يرجى اختيار صورة واحدة على الأقل للمنتج');
 return false;
 }
 var saveBtn = document.getElementById('btnSubmitProduct');
 saveBtn.disabled = true;
 saveBtn.innerText = 'جاري المزامنة مع السحابة... ⏳';
+var stagingList = JSON.parse(JSON.stringify(products));
 if (editId) {
-for (var i = 0; i < products.length; i++) {
-if (products[i].id === editId) {
-products[i].nameAr = name;
-products[i].gender = gender;
-products[i].price = price;
-products[i].offerPrice = offerPrice;
-products[i].sizes = sizes;
-products[i].colors = colors;
-products[i].status = status;
-if (newUploadedImgs.length > 0) products[i].images = newUploadedImgs;
+for (var i = 0; i < stagingList.length; i++) {
+if (stagingList[i].id === editId) {
+stagingList[i].nameAr = name;
+stagingList[i].gender = gender;
+stagingList[i].price = price;
+stagingList[i].offerPrice = offerPrice;
+stagingList[i].sizes = sizes;
+stagingList[i].colors = colors;
+stagingList[i].status = status;
+if (newUploadedImgs.length > 0) stagingList[i].images = newUploadedImgs;
 break;
 }
 }
 } else {
-products.unshift({
+stagingList.unshift({
 id: 'p_' + Date.now(),
 nameAr: name,
 gender: gender,
@@ -912,10 +876,11 @@ status: status,
 images: newUploadedImgs
 });
 }
-try { localStorage.setItem('am_cloud_cache', JSON.stringify(products)); } catch(e){}
-pushToCloud(function(success) {
+pushToCloud(stagingList, function(success, errMsg) {
 saveBtn.disabled = false;
-saveBtn.innerText = 'حفظ ونشر التعديل لجميع الزبائن فوراً ☁️';
+saveBtn.innerText = 'حفظ ونشر التحديث للجميع فوراً ☁️';
+if (success) {
+products = stagingList;
 document.getElementById('editId').value = '';
 document.getElementById('pName').value = '';
 document.getElementById('pPrice').value = '';
@@ -925,7 +890,10 @@ document.getElementById('pColors').value = '';
 newUploadedImgs = [];
 renderImgPreview();
 renderAdmin();
-alert(success ? '✓ تم الحفظ بنجاح ونشر التعديل في السحابة لجميع الزوار فوراً!' : 'تم الحفظ محلياً.');
+showAdminStatus('✓ تم حفظ القطعة وتحديث السحابة بنجاح! متاحة الآن لجميع الزوار.', true);
+} else {
+showAdminStatus('تعذر الحفظ في السحابة (' + errMsg + '). تأكد من اتصال الإنترنت.', false);
+}
 });
 return false;
 }
@@ -949,23 +917,24 @@ renderImgPreview();
 window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function delProduct(id) {
-if (!confirm('هل تريد حذف هذه القطعة نهائياً؟')) return;
+if (!confirm('هل تريد حذف هذه القطعة نهائياً من السحابة؟')) return;
 var updated = [];
 for (var i = 0; i < products.length; i++) {
 if (products[i].id !== id) updated.push(products[i]);
 }
+pushToCloud(updated, function(success, errMsg) {
+if (success) {
 products = updated;
-try { localStorage.setItem('am_cloud_cache', JSON.stringify(products)); } catch(e){}
 renderAdmin();
-pushToCloud(function() {
-alert('تم حذف القطعة ونشر التحديث لجميع الزوار.');
+showAdminStatus('✓ تم حذف القطعة نهائياً من السحابة لدى جميع الزوار.', true);
+} else {
+showAdminStatus('تعذر الحذف من السحابة (' + errMsg + ')', false);
+}
 });
 }
-/* Initialization */
+/* Init */
 changeLang(currentLang);
 pullFromCloud();
-checkHashPortal();
-window.addEventListener('hashchange', checkHashPortal);
 </script>
 </body>
 </html>
