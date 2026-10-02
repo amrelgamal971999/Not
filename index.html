@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head>
+<html lang="ar" dir="rtl">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ALI MODA | general trading</title>
@@ -121,12 +122,12 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <span class="brand-sub">general trading</span>
 </div>
 <div class="header-btns">
-<button id="adminActiveBtn" class="btn-portal-active" type="button" onclick="showAdmin()" style="display: inline-block;">⚙️ لوحة الإدارة</button>
+<button id="adminActiveBtn" class="btn-portal-active" type="button" onclick="showAdmin()" style="display:none;">⚙️ لوحة الإدارة</button>
 </div>
 </div>
 </header>
-<!-- Visitor Catalog View -->
-<div id="catalogArea" style="display: none;">
+<!-- Visitor Catalog View (Always visible to visitors) -->
+<div id="catalogArea" style="display:block;">
 <div class="hero">
 <div class="hero-brand">
 <span style="color:var(--cyan);">ALI</span>
@@ -141,21 +142,21 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </div>
 <div class="main-container">
 <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن موديل، مقاس، حذاء..." oninput="handleSearch(this.value)">
-<div class="scroll-row" id="deptTabs"><button type="button" class="chip-btn active" onclick="filterDept('all')">الكل</button><button type="button" class="chip-btn" onclick="filterDept('رجال')">رجال</button><button type="button" class="chip-btn" onclick="filterDept('نساء')">نساء</button><button type="button" class="chip-btn" onclick="filterDept('أكعب')">أكعب</button><button type="button" class="chip-btn" onclick="filterDept('أطفال')">أطفال</button><button type="button" class="chip-btn" onclick="filterDept('حقائب')">حقائب</button><button type="button" class="chip-btn" onclick="filterDept('إكسسوارات')">إكسسوارات</button></div>
+<div class="scroll-row" id="deptTabs"></div>
 <div style="display:flex; gap:8px; margin-bottom:12px;">
 <button class="chip-btn active" id="filter-all" type="button" onclick="setQuickFilter('all')">الكل</button>
 <button class="chip-btn" id="filter-offers" type="button" onclick="setQuickFilter('offers')">🏷️ عروض وديسكاونت</button>
 </div>
 <div class="products-grid" id="grid"></div>
-<div id="noProducts" style="text-align: center; padding: 50px 20px; color: rgb(119, 119, 119); font-size: 14px; display: block;">
+<div id="noProducts" style="text-align:center; padding:50px 20px; color:#777; font-size:14px; display:none;">
 لا توجد معروضات حالياً.
 
 <span style="font-size:12px; color:#999;">(اضغط 3 مرات على شعار ALI MODA للدخول وكتابة المعروضات)</span>
 </div>
 </div>
 </div>
-<!-- Admin Area (Owner Portal) -->
-<div id="adminArea" class="main-container" style="display: block;">
+<!-- Admin Area (Strictly Hidden by default) -->
+<div id="adminArea" class="main-container" style="display:none !important;">
 <div class="admin-panel">
 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:12px;">
 <h2 style="font-size:14px; font-weight:bold;">لوحة إدارة المتجر (الأدمن فقط)</h2>
@@ -165,7 +166,7 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </div>
 </div>
 <!-- Live Notification Banner -->
-<div id="adminStatusMsg" class="alert-banner">✓ تم تحميل ملف index.html المحدث بنجاح! ارفعه إلى GitHub ليتحدث الموقع فوراً.</div>
+<div id="adminStatusMsg" class="alert-banner"></div>
 <!-- Instant Code Generation & Download Buttons -->
 <div class="admin-actions-bar">
 <button type="button" class="btn-export-copy" onclick="copyFullWebsiteCode()">
@@ -184,17 +185,17 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <input type="hidden" id="editId">
 <div class="form-group">
 <label>صورة الحذاء/القطعة (تُضغط وتُحفظ تلقائياً) *</label>
-<input type="file" id="imgUpload" accept="image/*" multiple="" onchange="handleImgFiles(event)" style="font-size:11px;">
+<input type="file" id="imgUpload" accept="image/*" multiple onchange="handleImgFiles(event)" style="font-size:11px;">
 <div id="imgPreviewList" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;"></div>
 </div>
 <div class="form-group">
 <label>اسم المنتج *</label>
-<input type="text" id="pName" class="form-ctrl" required="" placeholder="مثال: حذاء كلاسيك جلد طبيعي أسود">
+<input type="text" id="pName" class="form-ctrl" required placeholder="مثال: حذاء كلاسيك جلد طبيعي أسود">
 </div>
 <div class="form-row">
 <div class="form-group">
 <label>القسم *</label>
-<select id="pGender" class="form-ctrl" required="">
+<select id="pGender" class="form-ctrl" required>
 <option value="رجال">رجال</option>
 <option value="نساء">نساء</option>
 <option value="أكعب">أكعب</option>
@@ -214,7 +215,7 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <div class="form-row">
 <div class="form-group">
 <label>السعر (د.ب) *</label>
-<input type="number" step="0.050" id="pPrice" class="form-ctrl" required="" placeholder="15.000">
+<input type="number" step="0.050" id="pPrice" class="form-ctrl" required placeholder="15.000">
 </div>
 <div class="form-group">
 <label>سعر الديسكاونت (د.ب) - اختياري</label>
@@ -265,16 +266,15 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 </div>
 </div>
 <!-- Login Modal (Hidden Password Field for Admin Only) -->
-<div class="modal-backdrop" id="loginModal" style="display: none;">
+<div class="modal-backdrop" id="loginModal">
 <div class="modal-box" style="max-width:320px; text-align:center;">
 <button class="modal-close" type="button" onclick="closeLoginModal()">✕</button>
 <div style="font-size:24px; margin-bottom:4px;">🔐</div>
 <h3 style="font-size:14px; font-weight:bold; margin-bottom:4px;">لوحة الأدمن فقط</h3>
 <p style="font-size:11px; color:#666; margin-bottom:12px;">أدخل كلمة المرور الخاصة بك</p>
 <form onsubmit="handleLoginSubmit(event)">
-<!-- نوع الحقل password لضمان إخفاء الأرقام برموز نقطية تماماً -->
-<input type="password" id="passInput" class="form-ctrl" required="" placeholder="••••••" autocomplete="off" style="text-align:center; font-size:18px; letter-spacing:4px; margin-bottom:8px;">
-<div id="loginErr" style="color: rgb(211, 47, 47); font-size: 11px; font-weight: bold; display: block; margin-bottom: 8px;">كلمة المرور غير صحيحة!</div>
+<input type="password" id="passInput" class="form-ctrl" required placeholder="••••••" autocomplete="off" style="text-align:center; font-size:18px; letter-spacing:4px; margin-bottom:8px;">
+<div id="loginErr" style="color:#d32f2f; font-size:11px; font-weight:bold; display:none; margin-bottom:8px;">كلمة المرور غير صحيحة!</div>
 <button type="submit" class="btn-primary" style="margin:0;">دخول</button>
 </form>
 </div>
@@ -316,19 +316,18 @@ header { background: #111; color: #fff; padding: 12px 16px; position: sticky; to
 <!-- Social Float Links -->
 <div class="float-wrap">
 <a href="https://instagram.com/ali_moda20" target="_blank" rel="noopener noreferrer" class="float-circle" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);">
-<svg width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+<svg width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
 </a>
 <a href="https://api.whatsapp.com/send?phone=97336334410" class="float-circle" style="background:var(--wa);">
-<svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.044c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"></path></svg>
+<svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.044c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
 </a>
 </div>
 <script>
-/* ================= EMBEDDED INVENTORY DATA ================= /
-/ يتم تضمين جميع المعروضات هنا تلقائياً لتعمل فوراً لدى الزوار بدون أي سيرفر خارجي */
+/* ================= EMBEDDED INVENTORY DATA ================= */
 var EMBEDDED_CATALOG = [];
 var products = [];
 var currentLang = 'ar';
-var isOwner = false;
+var isOwner = false; /* دائماً مقفل عند فتح الصفحة */
 var activeDept = 'all';
 var activeFilter = 'all';
 var searchKeyword = '';
@@ -337,6 +336,11 @@ var currentModalItem = null;
 var selectedModalSize = '';
 var selectedBranch = 'jidali';
 function initInventory() {
+// إجبار واجهة الزوار على الظهور وإخفاء الإدارة تماماً
+document.getElementById('catalogArea').style.display = 'block';
+document.getElementById('adminArea').style.display = 'none';
+document.getElementById('adminActiveBtn').style.display = 'none';
+isOwner = false;
 var saved = localStorage.getItem('ali_moda_local_products');
 if (saved) {
 try {
@@ -391,7 +395,7 @@ var I18N = {
 ar: {
 dir: 'rtl',
 all: 'الكل',
-offers: '🏷️ عروض وديسكاونت',
+offers: '🏷️️ عروض وديسكاونت',
 bhd: 'د.ب',
 orderBtn: 'مشاهدة الألوان والطلب',
 searchPh: 'ابحث عن موديل، مقاس، حذاء...',
@@ -856,11 +860,22 @@ saveLocally();
 renderAdmin();
 showAdminStatus('✓ تم حذف القطعة. اضغط على نسخ الكود أو تحميل الملف لتحديث الموقع لدى الجميع.', true);
 }
-/* FULL HTML GENERATION WITH EMBEDDED PRODUCTS */
+/* GENERATE CLEAN HTML FOR VISITORS (Ensures Admin Panel is Completely Locked) */
 function generateStandaloneHtml() {
+// 1. إعادة تعيين الحالة إلى وضع الزائر قبل أخذ الكود
+var originalCatalogDisplay = document.getElementById('catalogArea').style.display;
+var originalAdminDisplay = document.getElementById('adminArea').style.display;
+var originalBtnDisplay = document.getElementById('adminActiveBtn').style.display;
+document.getElementById('catalogArea').style.display = 'block';
+document.getElementById('adminArea').style.display = 'none';
+document.getElementById('adminActiveBtn').style.display = 'none';
 var docHtml = document.documentElement.outerHTML;
+// إرجاع واجهة الأدمن لحالتها للمستخدم الحالي
+document.getElementById('catalogArea').style.display = originalCatalogDisplay;
+document.getElementById('adminArea').style.display = originalAdminDisplay;
+document.getElementById('adminActiveBtn').style.display = originalBtnDisplay;
+// 2. حقن مصفوفة المنتجات داخل EMBEDDED_CATALOG
 var jsonPayload = JSON.stringify(products);
-// Inject the current products array into EMBEDDED_CATALOG
 var regex = /var\s+EMBEDDED_CATALOG\s*=\s*[[\s\S]*?];/;
 var replaced = docHtml.replace(regex, 'var EMBEDDED_CATALOG = ' + jsonPayload + ';');
 return '<!DOCTYPE html>\n' + replaced;
@@ -869,8 +884,8 @@ function copyFullWebsiteCode() {
 var fullCode = generateStandaloneHtml();
 if (navigator.clipboard && navigator.clipboard.writeText) {
 navigator.clipboard.writeText(fullCode).then(function() {
-showAdminStatus('✓ تم نسخ كود الموقع بالكامل إلى الحافظة! الصقه الآن في GitHub وسيعمل عند الجميع فوراً.', true);
-alert('✓ تم نسخ كود الموقع بالكامل بجميع المعروضات والصور!\n\nتوجه الآن إلى GitHub والصقه في index.html.');
+showAdminStatus('✓ تم نسخ كود المتجر المغلق بنجاح! الصقه في GitHub وسيفتح للزوار على صفحة المنتجات فوراً.', true);
+alert('✓ تم نسخ كود المتجر بنجاح!\n\nالكود الآن مهيأ ليفتح للجميع على صفحة المعروضات والمنتجات، وبوابة الأدمن مقفلة تماماً برمزك السري.');
 }).catch(function() {
 fallbackCopyText(fullCode);
 });
@@ -889,10 +904,10 @@ textArea.focus();
 textArea.select();
 try {
 document.execCommand('copy');
-showAdminStatus('✓ تم نسخ كود الموقع بالكامل! الصقه في ملف index.html على GitHub.', true);
-alert('✓ تم نسخ الكود بنجاح! الصقه في GitHub.');
+showAdminStatus('✓ تم نسخ الكود! الصقه في GitHub وسيفتح المتجر مباشرة للزوار.', true);
+alert('✓ تم نسخ الكود بنجاح!');
 } catch (err) {
-showAdminStatus('يرجى استخدام زر "تحميل ملف الموقع" لتحميل الملف مباشرة.', false);
+showAdminStatus('يرجى استخدام زر "تحميل ملف الموقع" لتحميل الملف.', false);
 }
 document.body.removeChild(textArea);
 }
@@ -907,11 +922,11 @@ document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
 URL.revokeObjectURL(url);
-showAdminStatus('✓ تم تحميل ملف index.html المحدث بنجاح! ارفعه إلى GitHub ليتحدث الموقع فوراً.', true);
+showAdminStatus('✓ تم تحميل ملف index.html المحدث والمقفل! ارفعه إلى GitHub ليتحدث المتجر للجميع فوراً.', true);
 }
 /* Start system */
 changeLang(currentLang);
 initInventory();
 </script>
-
-</body></html>
+</body>
+</html>
